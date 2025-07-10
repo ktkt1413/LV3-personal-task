@@ -130,9 +130,10 @@ public class ArithmeticCalculator {
     public void finishArithmetic(Scanner sc) {
         while (true) {
             System.out.println();
-            System.out.println("가장 먼저 저장된 연산 결과를 삭제하시겠습니까? (remove 입력 시 삭제): ");
             System.out.println("저장된 연산결과를 조회하시겠습니까? (inquiry 입력 시 조회): ");
-            System.out.println("현재 저장되어있는 값을 삭제 하시겠습니까? ('clear'입력)");
+            System.out.println("가장 먼저 저장된 연산 결과를 삭제하시겠습니까? (remove 입력 시 삭제): ");
+            System.out.println("현재 저장되어있는 모든값을 삭제 하시겠습니까? ('clear'입력)");
+            System.out.println();
             System.out.println("더 계산하길 원하시면 'enter키'를, 종료를 원하시면 'exit'을 입력해주세요: ");
 
 
