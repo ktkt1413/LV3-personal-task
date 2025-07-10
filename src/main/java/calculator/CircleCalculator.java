@@ -9,7 +9,8 @@ public class CircleCalculator {
     private Integer radius;
     private double result;
     public static final double PIE = Math.PI;  // 상수임을 명시하기 위해 대문자로 명명
-
+        // static:클래스 로딩 시 한 번만 메모리에 올라감. 객체 생성 없이도 클래스 이름으로 접근 가능 -> public으로 외부접근 허용
+        // final: 한번 정의 된 후 변하지 않는 값(파이 값은 변하지 않으므로)
     public CircleCalculator(){};
 
     public CircleCalculator(int radius) {
@@ -17,10 +18,10 @@ public class CircleCalculator {
     }
 
     public double circleExtent() {
-         result = radius * radius * PIE ;
-         System.out.println("원의 넓이는 "+result+"입니다.");
-         this.save(result);
-         return result;  // 연산결과 반환 후 while문 종료
+        result = radius * radius * PIE ;
+        System.out.println("원의 넓이는 "+result+"입니다.");
+        this.save(result);
+        return result;
     }
 
     public void save(double num) {
@@ -37,7 +38,7 @@ public class CircleCalculator {
 
             if(input.equalsIgnoreCase("exit")){
                 System.out.println("작업이 종료됩니다.");
-                return 0;
+                return null;
             }
             if(input.trim().isEmpty()){
                 System.out.print("입력값이 없습니다. 다시 입력해주세요: ");

@@ -1,17 +1,16 @@
 package calculator;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import calculator.operator.*;
+
+import java.util.*;
 
 public class ArithmeticCalculator {
     private final List<Integer> savedData = new ArrayList<>();
+    private final Map<Character, Operator> operators = new HashMap<>();
     private int num1;
     private int num2;
     private char operator;
 
-    public ArithmeticCalculator() {
-    }
 
     public ArithmeticCalculator(int num1, int num2, char operator) {
         this.num1 = num1;
@@ -19,10 +18,16 @@ public class ArithmeticCalculator {
         this.operator = operator;
     }
 
+    public ArithmeticCalculator() {
+        operators.put('+', new AddOperator());
+        operators.put('-', new SubtractOperator());
+        operators.put('*', new MultiplyOperator());
+        operators.put('/', new DivideOperator());
+    }
+
     public int arithmetic(Scanner sc) {
         int midResult = 0;
         while(true) {
-
             if(operator == '/' && num2 == 0) {
                 while(num2 ==0){
                     System.out.println("0을 제외한 다른 수를 입력해주세요");
@@ -38,30 +43,17 @@ public class ArithmeticCalculator {
                     }
                 }
             }
-
-            switch (operator) {
-                case '+':
-                    midResult = num1 + num2;
-                    break;
-                case '-':
-                    midResult = num1 - num2;
-                    break;
-                case '*':
-                    midResult = num1 * num2;
-                    break;
-                case '/':
-                    midResult = num1 / num2;
-                    break;
-                default:
-                    System.out.println("알 수 없는 오류가 발생했습니다. 다시 입력해주세요");
-                    sc.nextLine();
-                    continue;
+            Operator op = operators.get(operator);
+            if(op == null){
+                throw new IllegalArgumentException("지원하지 않는 연산자 입니다.");
             }
+            midResult = op.operate(num1, num2);
             System.out.println("결과: " + midResult);
             this.save(midResult);
             return midResult;  // 연산결과 반환 후 while문 종료
         }
     }
+
     public void save(int num){
         savedData.add(num);
         System.out.println("계산한 값이 저장되었습니다.");
