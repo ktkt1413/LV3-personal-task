@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ArithmeticCalculator {
-    private final List<Integer> result = new ArrayList<>();
+    private final List<Integer> savedData = new ArrayList<>();
     private int num1;
     private int num2;
     private char operator;
@@ -58,19 +58,14 @@ public class ArithmeticCalculator {
                     continue;
             }
             System.out.println("결과: " + midResult);
-            save(midResult);
-            return midResult;
+            this.save(midResult);
+            return midResult;  // 연산결과 반환 후 while문 종료
         }
     }
     public void save(int num){
-        result.add(num);
+        savedData.add(num);
         System.out.println("계산한 값이 저장되었습니다.");
     }
-
-    public void clearAll(){
-        result.clear();
-    }
-
     public ArithmeticInput readyArithmetic(Scanner sc) {
         System.out.println("사칙연산을 시작합니다. (종료를 원하시면 'exit' 입력)");
 
@@ -138,20 +133,19 @@ public class ArithmeticCalculator {
 
 
             String answer = sc.nextLine();
-            List<Integer> currentResult = this.getResult();
 
             if (answer.equalsIgnoreCase("remove")) {
-                if (!currentResult.isEmpty()) {
-                    System.out.println("저장된 첫 번째 " + currentResult.get(0) + "이 삭제 되었습니다.");
-                    currentResult.remove(0);
-                    System.out.println("현재 저장된 값은 " + currentResult);
+                if (!this.getData().isEmpty()) {
+                    System.out.println("저장된 첫 번째 " + this.getData().get(0) + "이 삭제 되었습니다.");
+                    this.getData().remove(0);
+                    System.out.println("현재 저장된 값은 " + this.getData() + " 입니다.");
                 } else {
-                    System.out.println("삭제할 결과가 없습니다.");
+                    System.out.println("삭제할 값이 없습니다.");
                 }
             } else if (answer.equalsIgnoreCase("inquiry")) {
                 System.out.print("현재 계산기에 저장된 값은 ");
-                if(!currentResult.isEmpty()) {
-                    for (int r : currentResult) {
+                if(!this.getData().isEmpty()) {
+                    for (int r : this.getData()) {
                         System.out.print(r + " ");
                     }
                     System.out.println();
@@ -160,13 +154,14 @@ public class ArithmeticCalculator {
                 }
 
             }else if (answer.equalsIgnoreCase("clear")) {
-                this.getResult().clear();
+                System.out.println("계산기에 저장된 모든 값을 삭제하였습니다.");
+                this.getData().clear();
             } else if (answer.equalsIgnoreCase("exit")) {
                 System.out.println("작업이 종료됩니다.");
                 return;
             } else if (answer.isBlank()) {
                 ArithmeticInput input2 = this.readyArithmetic(sc);
-                if(input2 == null) {
+                if(input2 == null) {  // <- exit 를 입력한 경우
                     System.out.println("작업이 종료됩니다.");
                     return;
                 }
@@ -191,8 +186,8 @@ public class ArithmeticCalculator {
         return operator;
     }
 
-    public List<Integer> getResult(){
-        return result;
+    public List<Integer> getData(){
+        return savedData;
     }
 
 
