@@ -23,6 +23,7 @@ public class ArithmeticCalculator {
         operators.put('-', new SubtractOperator());
         operators.put('*', new MultiplyOperator());
         operators.put('/', new DivideOperator());
+        operators.put('%', new ModOperator());
     }
 
     public int arithmetic(Scanner sc) {
@@ -42,9 +43,9 @@ public class ArithmeticCalculator {
                         System.out.println("정수를 입력해주세요");
                     }
                 }
-            }
-            Operator op = operators.get(operator);
-            if(op == null){
+            }          //.get(operator) 여기서 operator은 사칙연산 클래스 중 하나이다. 입력한 연산 클래스의 객체가 op이다.
+            Operator op = operators.get(operator); //다형성(Operator인터페이스타입의 변수 op)을 통해
+            if(op == null){                        //같은 메서드이름(operator())으로 다른 기능 구현
                 throw new IllegalArgumentException("지원하지 않는 연산자 입니다.");
             }
             midResult = op.operate(num1, num2);
@@ -78,7 +79,7 @@ public class ArithmeticCalculator {
         }
         // 사칙연산 입력
         while (true) {
-            System.out.print("사칙연산 (+, -, *, /) 기호를 한개만 입력해주세요: ");
+            System.out.print("사칙연산 (+, -, *, /, %) 기호를 한개만 입력해주세요: ");
             String opInput = sc.nextLine();
             if (opInput.equals("exit")) {
                 System.out.println("작업이 종료됩니다.");
@@ -86,7 +87,7 @@ public class ArithmeticCalculator {
             }
             if (opInput.length() == 1) {
                 operator = opInput.charAt(0);
-                if (operator == '+' || operator == '-' || operator == '*' || operator == '/') {
+                if (operator == '+' || operator == '-' || operator == '*' || operator == '/'|| operator == '%') {
                     break;
                 } else {
                     System.out.println("잘못된 연산자 입니다. 다시 입력해주세요.");
