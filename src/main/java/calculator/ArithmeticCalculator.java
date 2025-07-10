@@ -89,22 +89,6 @@ public class ArithmeticCalculator {
                 System.out.println("잘못 입력하였습니다. 정수를 입력해주세요.");
             }
         }
-
-        // 두 번째 숫자 입력
-        while (true) {
-            System.out.print("두 번째 숫자를 입력하세요: ");
-            String input = sc.nextLine();
-            if (input.equals("exit")) {
-                System.out.println("작업이 종료됩니다.");
-                return null;
-            }
-            try {
-                num2 = Integer.parseInt(input);
-                break;
-            } catch (NumberFormatException e) {
-                System.out.println("잘못 입력하였습니다. 정수를 입력해주세요.");
-            }
-        }
         // 사칙연산 입력
         while (true) {
             System.out.print("사칙연산 (+, -, *, /) 기호를 한개만 입력해주세요: ");
@@ -124,6 +108,22 @@ public class ArithmeticCalculator {
                 System.out.println("연산자는 1개만 입력해주세요");
             }
         }
+
+        // 두 번째 숫자 입력
+        while (true) {
+            System.out.print("두 번째 숫자를 입력하세요: ");
+            String input = sc.nextLine();
+            if (input.equals("exit")) {
+                System.out.println("작업이 종료됩니다.");
+                return null;
+            }
+            try {
+                num2 = Integer.parseInt(input);
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("잘못 입력하였습니다. 정수를 입력해주세요.");
+            }
+        }
         return new ArithmeticInput(num1, num2, operator);
     }
 
@@ -132,7 +132,9 @@ public class ArithmeticCalculator {
             System.out.println();
             System.out.println("가장 먼저 저장된 연산 결과를 삭제하시겠습니까? (remove 입력 시 삭제): ");
             System.out.println("저장된 연산결과를 조회하시겠습니까? (inquiry 입력 시 조회): ");
+            System.out.println("현재 저장되어있는 값을 삭제 하시겠습니까? ('clear'입력)");
             System.out.println("더 계산하길 원하시면 'enter키'를, 종료를 원하시면 'exit'을 입력해주세요: ");
+
 
             String answer = sc.nextLine();
             List<Integer> currentResult = this.getResult();
@@ -147,12 +149,17 @@ public class ArithmeticCalculator {
                 }
             } else if (answer.equalsIgnoreCase("inquiry")) {
                 System.out.print("현재 계산기에 저장된 값은 ");
-                for (int r : currentResult) {
-                    System.out.print(r + " ");
+                if(!currentResult.isEmpty()) {
+                    for (int r : currentResult) {
+                        System.out.print(r + " ");
+                    }
+                    System.out.println();
+                } else {
+                    System.out.println("현재 저장되어 있는 값이 없습니다.");
                 }
-                System.out.println();
+
             }else if (answer.equalsIgnoreCase("clear")) {
-                this.clearAll();
+                this.getResult().clear();
             } else if (answer.equalsIgnoreCase("exit")) {
                 System.out.println("작업이 종료됩니다.");
                 return;
