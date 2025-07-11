@@ -59,8 +59,27 @@ public class ArithmeticCalculator {
 
             DecimalFormat df = new DecimalFormat("#,###.####");
             System.out.println("결과: " + df.format(result));
-            this.save(result);
-            return result;  // 연산결과 반환 후 while문 종료
+            char saveAnswer;
+            while(true){
+                System.out.println("이 결과를 저장하시겠습니까? (y/n)");
+                String saveInput = sc.nextLine().trim();
+                if (saveInput.equalsIgnoreCase("exit")) {
+                    System.out.println("계산을 종료하고 메인메뉴로 돌아갑니다.");
+                    System.out.println();
+                    return 0;
+                }else if(saveInput.length() == 1){
+                    saveAnswer = saveInput.charAt(0);
+                    if(saveAnswer == 'y'||saveAnswer == 'Y'){
+                        this.save(result);
+                    } else if (saveAnswer == 'n'||saveAnswer == 'N') {
+                        System.out.println("결과를 저장하지 않습니다.");
+                    }else {
+                        System.out.println("잘못 입력하셨습니다. y 또는 n 중 하나만 입력하세요");
+                        System.out.println();
+                        continue;
+                    }
+                } return result;
+            }
         }
     }
 

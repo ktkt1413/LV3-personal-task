@@ -18,12 +18,33 @@ public class CircleCalculator {
         this.radius = radius;
     }
 
-    public double circleExtent() {
+    public double circleExtent(Scanner sc) {
         result = radius * radius * PIE ;
         DecimalFormat df = new DecimalFormat("#,###.####");
         System.out.println("원의 넓이는 "+df.format(result)+" 입니다.");
-        this.save(result);
-        return result;
+
+        char saveAnswer;
+
+        while(true){
+            System.out.println("이 결과를 저장하시겠습니까? (y/n)");
+            String saveInput = sc.nextLine().trim();
+            if (saveInput.equalsIgnoreCase("exit")) {
+                System.out.println("계산을 종료하고 메인메뉴로 돌아갑니다.");
+                System.out.println();
+                return 0;
+            }else if(saveInput.length() == 1){
+                saveAnswer = saveInput.charAt(0);
+                if(saveAnswer == 'y'||saveAnswer == 'Y'){
+                    this.save(result);
+                } else if (saveAnswer == 'n'||saveAnswer == 'N') {
+                    System.out.println("결과를 저장하지 않습니다.");
+                }else {
+                    System.out.println("잘못 입력하셨습니다. y 또는 n 중 하나만 입력하세요");
+                    System.out.println();
+                    continue;
+                }
+            } return result;
+        }
     }
 
     public void save(double num) {
@@ -86,7 +107,7 @@ public class CircleCalculator {
                     }
                     System.out.println();
                 }else {
-                    System.out.println("현재 저장되어 있는 값이 없습니다.");
+                    System.out.println("없습니다.");
                 }
             } else if (answer.equalsIgnoreCase("clear")) {
                 if(!this.getData().isEmpty()){
@@ -108,7 +129,7 @@ public class CircleCalculator {
                     return;
                 }
                 this.setValues(input);
-                this.circleExtent();
+                this.circleExtent(sc);
             }else {
                 System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
             }
