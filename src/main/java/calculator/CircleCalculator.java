@@ -20,14 +20,14 @@ public class CircleCalculator {
 
     public double circleExtent() {
         result = radius * radius * PIE ;
-        DecimalFormat df = new DecimalFormat("#.####");
+        DecimalFormat df = new DecimalFormat("#,###.####");
         System.out.println("원의 넓이는 "+df.format(result)+" 입니다.");
         this.save(result);
         return result;
     }
 
     public void save(double num) {
-        DecimalFormat df = new DecimalFormat("#.####");
+        DecimalFormat df = new DecimalFormat("#,###.####");
         String formatted = df.format(num);
         savedData.add(formatted);
         System.out.println("계산한 원 넓이가 저장되었습니다.");
@@ -41,7 +41,8 @@ public class CircleCalculator {
             String input = sc.nextLine().trim();
 
             if(input.equalsIgnoreCase("exit")){
-                System.out.println("작업이 종료됩니다.");
+                System.out.println("계산을 종료하고 메인메뉴로 돌아갑니다.");
+                System.out.println();
                 return null;
             }
             if(input.trim().isEmpty()){
@@ -96,12 +97,14 @@ public class CircleCalculator {
                 }
 
             } else if ( answer.equalsIgnoreCase("exit")){
-                System.out.println("작업이 종료됩니다.");
+                System.out.println("계산을 종료하고 메인메뉴로 돌아갑니다.");
+                System.out.println();
                 return;
             } else if (answer.isBlank()){
                 Double input = this.readyCircle(sc);
                 if(input == null){  // <- exit 를 입력한 경우
-                    System.out.println("작업이 종료됩니다. ");
+                    System.out.println("계산을 종료하고 메인메뉴로 돌아갑니다.");
+                    System.out.println();
                     return;
                 }
                 this.setValues(input);

@@ -40,7 +40,8 @@ public class ArithmeticCalculator {
                     System.out.println("0을 제외한 다른 수를 입력해주세요");
                     String input = sc.nextLine().trim();
                     if (input.equalsIgnoreCase("exit")) {
-                        System.out.println("작업이 종료됩니다.");
+                        System.out.println("계산을 종료하고 메인메뉴로 돌아갑니다.");
+                        System.out.println();
                         return 0;
                     }
                     try{
@@ -56,7 +57,7 @@ public class ArithmeticCalculator {
             }
             double result = op.operate(num1, num2);
 
-            DecimalFormat df = new DecimalFormat("#.####");
+            DecimalFormat df = new DecimalFormat("#,###.####");
             System.out.println("결과: " + df.format(result));
             this.save(result);
             return result;  // 연산결과 반환 후 while문 종료
@@ -64,20 +65,22 @@ public class ArithmeticCalculator {
     }
 
     public void save(double num){
-        DecimalFormat df = new DecimalFormat("#.####");
+        DecimalFormat df = new DecimalFormat("#,###.####");
         String formatted = df.format(num);
         savedData.add(formatted);
         System.out.println("계산한 값이 저장되었습니다.");
     }
     public ArithmeticInput readyArithmetic(Scanner sc) {
-        System.out.println("사칙연산을 시작합니다. (종료를 원하시면 'exit' 입력)");
+        System.out.println("사칙연산을 시작합니다. (메인메뉴로 돌아가길 원하시면 'exit' 입력)");
+        System.out.println();
 
         // 첫 번째 숫자 입력
         while (true) {
             System.out.print("첫 번째 숫자를 입력하세요: ");
             String input = sc.nextLine().trim();
             if (input.equals("exit")) {
-                System.out.println("작업이 종료됩니다.");
+                System.out.println("계산을 종료하고 메인메뉴로 돌아갑니다.");
+                System.out.println();
                 return null;
             }
             try {
@@ -92,7 +95,8 @@ public class ArithmeticCalculator {
             System.out.print("사칙연산 (+, -, *, /, %) 기호를 한개만 입력해주세요: ");
             String opInput = sc.nextLine().trim();
             if (opInput.equals("exit")) {
-                System.out.println("작업이 종료됩니다.");
+                System.out.println("계산을 종료하고 메인메뉴로 돌아갑니다.");
+                System.out.println();
                 return null;
             }
             if (opInput.length() == 1) {
@@ -113,7 +117,8 @@ public class ArithmeticCalculator {
             System.out.print("두 번째 숫자를 입력하세요: ");
             String input = sc.nextLine().trim();
             if (input.equals("exit")) {
-                System.out.println("작업이 종료됩니다.");
+                System.out.println("계산을 종료하고 메인메뉴로 돌아갑니다.");
+                System.out.println();
                 return null;
             }
             try {
@@ -133,7 +138,7 @@ public class ArithmeticCalculator {
             System.out.println("가장 먼저 저장된 연산 결과를 삭제하시겠습니까? (remove 입력 시 삭제): ");
             System.out.println("현재 저장되어있는 모든값을 삭제 하시겠습니까? ('clear'입력)");
             System.out.println();
-            System.out.println("더 계산하길 원하시면 'enter키'를, 종료를 원하시면 'exit'을 입력해주세요: ");
+            System.out.println("더 계산하길 원하시면 'enter키'를, 메인메뉴로 돌아가기를 원하시면 'exit'을 입력해주세요: ");
 
 
             String answer = sc.nextLine().trim();
@@ -165,12 +170,14 @@ public class ArithmeticCalculator {
                     System.out.println("삭제할 값이 존재하지 않습니다.");
                 }
             } else if (answer.equalsIgnoreCase("exit")) {
-                System.out.println("작업이 종료됩니다.");
+                System.out.println("계산을 종료하고 메인메뉴로 돌아갑니다.");
+                System.out.println();
                 return;
             } else if (answer.isBlank()) {
                 ArithmeticInput input2 = this.readyArithmetic(sc);
                 if(input2 == null) {  // <- exit 를 입력한 경우
-                    System.out.println("작업이 종료됩니다.");
+                    System.out.println("계산을 종료하고 메인메뉴로 돌아갑니다.");
+                    System.out.println();
                     return;
                 }
                 this.setValues(input2.num1, input2.num2, input2.operator);
