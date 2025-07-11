@@ -27,7 +27,8 @@ public class App {
                 }
                 catch(NumberFormatException e){
                     System.out.println("잘못 입력하셨습니다. 숫자 '1' 또는 '2'를 입력해주세요.");
-                } if(pressButton == 1){
+                }
+                if(pressButton == 1){
                     ArithmeticCalculator calc = new ArithmeticCalculator();
                     ArithmeticInput values = calc.readyArithmetic(sc);
                     if(values == null){
