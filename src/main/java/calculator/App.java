@@ -36,7 +36,7 @@ public class App {
                     }else {
                         calc.setValues(values.num1, values.num2, values.operator);
                         double resultNum = calc.arithmetic(sc);  // 반환값이 있어서 resultNum을 만들긴 했는데 쓸데가 없다..
-                        if(resultNum == 0){
+                        if(resultNum == -99999.0){
                             continue;
                         }
                         calc.finishArithmetic(sc);               // 마찬가지로 삭제할 수 없다. 계산이 안 된다.

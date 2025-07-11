@@ -34,65 +34,66 @@ public class ArithmeticCalculator {
     }
 
     public double arithmetic(Scanner sc) {
-        while(true) {
-            if(operator == OperatorType.DIVIDE && num2 == 0.0) {
-                while(num2 == 0.0){
-                    System.out.println("0을 제외한 다른 수를 입력해주세요");
-                    String input = sc.nextLine().trim();
 
-                    if (input.equalsIgnoreCase("exit")) {
-                        System.out.println("계산을 종료하고 메인메뉴로 돌아갑니다.");
-                        System.out.println();
-                        return 0;
-                    }
-                    try{
-                        num2 = Double.parseDouble(input);
-                    } catch(NumberFormatException e) {
-                        System.out.println("숫자를 입력해주세요");
-                    }
+        if (operator == OperatorType.DIVIDE && num2 == 0.0) {
+            while (num2 == 0.0) {
+                System.out.println("0을 제외한 다른 수를 입력해주세요");
+                String input = sc.nextLine().trim();
+
+                if (input.equalsIgnoreCase("exit")) {
+                    System.out.println("계산을 종료하고 메인메뉴로 돌아갑니다.");
+                    System.out.println();
+                    return -99999.0;
+                }
+                try {
+                    num2 = Double.parseDouble(input);
+                } catch (NumberFormatException e) {
+                    System.out.println("숫자를 입력해주세요");
                 }
             }
-            Operator<Double> op = Optional.ofNullable(operators.get(operator))
-                    .orElseThrow(() -> new IllegalArgumentException("지원하지 않는 연산자 입니다."));
+        }
+        Operator<Double> op = Optional.ofNullable(operators.get(operator))
+                .orElseThrow(() -> new IllegalArgumentException("지원하지 않는 연산자 입니다."));
 //                                        .get(operator) 여기서 operator은 사칙연산 클래스 중 하나이다. 입력한 연산 클래스의 객체가 op이다.
 //            Operator<Double> op = operators.get(operator); //다형성(Operator인터페이스타입의 변수 op)을 통해
 //            if(op == null){                        //같은 메서드이름(operator())으로 다른 기능 구현
 //                throw new IllegalArgumentException("지원하지 않는 연산자 입니다.");
 //            }
-            double result = op.operate(num1, num2);
+        double result = op.operate(num1, num2);
 
-            DecimalFormat df = new DecimalFormat("#,###.####");
-            System.out.println("결과: " + df.format(result));
-            char saveAnswer;
-            while(true){
-                System.out.println("이 결과를 저장하시겠습니까? (y/n)");
-                String saveInput = sc.nextLine().trim();
-                if (saveInput.equalsIgnoreCase("exit")) {
-                    System.out.println("계산을 종료하고 메인메뉴로 돌아갑니다.");
+        DecimalFormat df = new DecimalFormat("#,###.####");
+        System.out.println("결과: " + df.format(result));
+        char saveAnswer;
+        while (true) {
+            System.out.println("이 결과를 저장하시겠습니까? (y/n)");
+            String saveInput = sc.nextLine().trim();
+            if (saveInput.equalsIgnoreCase("exit")) {
+                System.out.println("계산을 종료하고 메인메뉴로 돌아갑니다.");
+                System.out.println();
+                return 0;
+            } else if (saveInput.length() == 1) {
+                saveAnswer = saveInput.charAt(0);
+                if (saveAnswer == 'y' || saveAnswer == 'Y') {
+                    this.save(result);
+                } else if (saveAnswer == 'n' || saveAnswer == 'N') {
+                    System.out.println("결과를 저장하지 않습니다.");
+                } else {
+                    System.out.println("잘못 입력하셨습니다. y 또는 n 중 하나만 입력하세요");
                     System.out.println();
-                    return 0;
-                }else if(saveInput.length() == 1){
-                    saveAnswer = saveInput.charAt(0);
-                    if(saveAnswer == 'y'||saveAnswer == 'Y'){
-                        this.save(result);
-                    } else if (saveAnswer == 'n'||saveAnswer == 'N') {
-                        System.out.println("결과를 저장하지 않습니다.");
-                    }else {
-                        System.out.println("잘못 입력하셨습니다. y 또는 n 중 하나만 입력하세요");
-                        System.out.println();
-                        continue;
-                    }
-                } return result;
+                    continue;
+                }
             }
+            return result;
         }
     }
 
-    public void save(double num){
+    public void save(double num) {
         DecimalFormat df = new DecimalFormat("#,###.####");
         String formatted = df.format(num);
         savedData.add(formatted);
         System.out.println("계산한 값이 저장되었습니다.");
     }
+
     public ArithmeticInput readyArithmetic(Scanner sc) {
         System.out.println("사칙연산을 시작합니다. (메인메뉴로 돌아가길 원하시면 'exit' 입력)");
         System.out.println();
@@ -126,8 +127,8 @@ public class ArithmeticCalculator {
             if (opInput.length() == 1) {
                 OperatorType.fromChar(opInput.charAt(0))
                         .ifPresentOrElse(
-                                op ->{
-                                    operator =op;
+                                op -> {
+                                    operator = op;
                                     done[0] = true;  //익명함수 내부에서 break 대체
                                 },
                                 () -> System.out.println("잘못된 연산자 입니다. 다시 입력해주세요")
@@ -185,15 +186,15 @@ public class ArithmeticCalculator {
                 }
             } else if (answer.equalsIgnoreCase("inquiry")) {
                 System.out.print("현재 계산기에 저장된 값은 ");
-                if(!this.getData().isEmpty()) {
+                if (!this.getData().isEmpty()) {
                     System.out.println(String.join(" ", this.getData()));
                     System.out.println();
                 } else {
                     System.out.println("없습니다.");
                 }
 
-            }else if (answer.equalsIgnoreCase("clear")) {
-                if(!this.getData().isEmpty()){
+            } else if (answer.equalsIgnoreCase("clear")) {
+                if (!this.getData().isEmpty()) {
                     System.out.println("계산기에 저장된 모든 값을 삭제합니다.");
                     this.getData().clear();
                 } else {
@@ -205,7 +206,7 @@ public class ArithmeticCalculator {
                 return;
             } else if (answer.isBlank()) {
                 ArithmeticInput input2 = this.readyArithmetic(sc);
-                if(input2 == null) {  // <- exit 를 입력한 경우
+                if (input2 == null) {  // <- exit 를 입력한 경우
                     System.out.println("계산을 종료하고 메인메뉴로 돌아갑니다.");
                     System.out.println();
                     return;
@@ -219,25 +220,25 @@ public class ArithmeticCalculator {
     }
 
     //getter
-    public double getNum1(){
+    public double getNum1() {
         return num1;
     }
 
-    public double getNum2(){
+    public double getNum2() {
         return num2;
     }
 
-    public OperatorType getOperator(){
+    public OperatorType getOperator() {
         return operator;
     }
 
-    public List<String> getData(){
+    public List<String> getData() {
         return savedData;
     }
 
 
     //setter
-    public void setValues(double num1, double num2,  OperatorType operator) {
+    public void setValues(double num1, double num2, OperatorType operator) {
         this.num1 = num1;
         this.num2 = num2;
         this.operator = operator;

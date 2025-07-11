@@ -74,7 +74,7 @@ public class CircleCalculator {
                 radius = Double.parseDouble(input);
                 break;
             } catch(NumberFormatException e){
-                System.out.println("잘못 입력하였습니다. 정수를 입력해주세요");
+                System.out.println("잘못 입력하였습니다. 숫자를 입력해주세요(소수 가능)");
             }
         }
         return radius;
