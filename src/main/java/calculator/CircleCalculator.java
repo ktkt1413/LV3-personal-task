@@ -1,16 +1,17 @@
 package calculator;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class CircleCalculator {
-    private final List<Double> savedData = new ArrayList<>();
+    private final List<String> savedData = new ArrayList<>();
     private double radius;
     private double result;
     public static final double PIE = Math.PI;  // 상수임을 명시하기 위해 대문자로 명명
-        // static:클래스 로딩 시 한 번만 메모리에 올라감. 객체 생성 없이도 클래스 이름으로 접근 가능 -> public으로 외부접근 허용
-        // final: 한번 정의 된 후 변하지 않는 값(파이 값은 변하지 않으므로)
+    // static:클래스 로딩 시 한 번만 메모리에 올라감. 객체 생성 없이도 클래스 이름으로 접근 가능 -> public으로 외부접근 허용
+    // final: 한번 정의 된 후 변하지 않는 값(파이 값은 변하지 않으므로)
     public CircleCalculator(){};
 
     public CircleCalculator(double radius) {
@@ -19,13 +20,16 @@ public class CircleCalculator {
 
     public double circleExtent() {
         result = radius * radius * PIE ;
-        System.out.println("원의 넓이는 "+result+"입니다.");
+        DecimalFormat df = new DecimalFormat("#.####");
+        System.out.println("원의 넓이는 "+df.format(result)+" 입니다.");
         this.save(result);
         return result;
     }
 
     public void save(double num) {
-        savedData.add(num);
+        DecimalFormat df = new DecimalFormat("#.####");
+        String formatted = df.format(num);
+        savedData.add(formatted);
         System.out.println("계산한 원 넓이가 저장되었습니다.");
     }
 
@@ -34,7 +38,7 @@ public class CircleCalculator {
 
         while(true){
             System.out.print("계산하고 싶은 원의 반지름을 입력해주세요.(소수 가능) : ");
-            String input = sc.nextLine();
+            String input = sc.nextLine().trim();
 
             if(input.equalsIgnoreCase("exit")){
                 System.out.println("작업이 종료됩니다.");
@@ -63,7 +67,7 @@ public class CircleCalculator {
             System.out.println();
             System.out.println("더 계산하길 원하시면 'enter키'를, 종료를 원하시면 'exit'을 입력해주세요: ");
 
-            String answer = sc.nextLine();
+            String answer = sc.nextLine().trim();
 
             if(answer.equalsIgnoreCase("remove")) {
                 if(!this.getData().isEmpty()){
@@ -76,7 +80,7 @@ public class CircleCalculator {
             } else if(answer.equalsIgnoreCase("inquiry")){
                 System.out.print("현재 계산기에 저장된 값은 ");
                 if(!this.getData().isEmpty()){
-                    for(double num : this.getData()){
+                    for(String num : this.getData()){
                         System.out.print(num + " ");
                     }
                     System.out.println();
@@ -84,8 +88,13 @@ public class CircleCalculator {
                     System.out.println("현재 저장되어 있는 값이 없습니다.");
                 }
             } else if (answer.equalsIgnoreCase("clear")) {
-                System.out.println("계산기에 저장된 모든 값을 삭제합니다.");
-                this.getData().clear();
+                if(!this.getData().isEmpty()){
+                    System.out.println("계산기에 저장된 모든 값을 삭제합니다.");
+                    this.getData().clear();
+                } else {
+                    System.out.println("삭제할 값이 존재하지 않습니다.");
+                }
+
             } else if ( answer.equalsIgnoreCase("exit")){
                 System.out.println("작업이 종료됩니다.");
                 return;
@@ -104,7 +113,7 @@ public class CircleCalculator {
     }
 
     // getter 메서드
-    public List<Double> getData() {
+    public List<String> getData() {
         return savedData;
     }
 
