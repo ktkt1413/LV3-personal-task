@@ -1,11 +1,13 @@
 package calculator;
 
-public class ArithmeticInput {
-    public int num1;
-    public int num2;
-    public char operator;
+import calculator.operator.OperatorType;
 
-    public ArithmeticInput(int num1, int num2, char operator) {
+public class ArithmeticInput {
+    public double num1;
+    public double num2;
+    public OperatorType operator;
+
+    public ArithmeticInput(double num1, double num2, OperatorType operator) {
         this.num1 = num1;
         this.num2 = num2;
         this.operator = operator;

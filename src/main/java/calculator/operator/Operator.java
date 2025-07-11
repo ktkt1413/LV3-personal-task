@@ -1,5 +1,5 @@
 package calculator.operator;
 
-public interface Operator {
-    int operate(int a, int b);
+public interface Operator<T> {
+    T operate(T a, T b);
 }

@@ -1,8 +1,8 @@
 package calculator.operator;
 
-public class DivideOperator implements Operator {
+public class DivideOperator implements Operator<Double> {
     @Override
-    public int operate(int a, int b) {
+    public Double operate(Double a, Double b) {
         return a / b;
     }
 

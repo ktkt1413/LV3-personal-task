@@ -5,32 +5,44 @@ import calculator.operator.*;
 import java.util.*;
 
 public class ArithmeticCalculator {
-    private final List<Integer> savedData = new ArrayList<>();
-    private final Map<Character, Operator> operators = new HashMap<>();
-    private int num1;
-    private int num2;
-    private char operator;
+    private final List<Double> savedData = new ArrayList<>();
+    private final Map<OperatorType, Operator<Double>> operators = new HashMap<>();
+    private double num1;
+    private double num2;
+    private OperatorType operator;
 
 
-    public ArithmeticCalculator(int num1, int num2, char operator) {
+    public ArithmeticCalculator(double num1, double num2, OperatorType operator) {
         this.num1 = num1;
         this.num2 = num2;
         this.operator = operator;
+        initOperators();
+    }
+
+    private void initOperators() {
+        operators.put(OperatorType.ADD, new AddOperator());
+        operators.put(OperatorType.SUBTRACT, new SubtractOperator());
+        operators.put(OperatorType.MULTIPLY, new MultiplyOperator());
+        operators.put(OperatorType.DIVIDE, new DivideOperator());
+        operators.put(OperatorType.MOD, new ModOperator());
     }
 
     public ArithmeticCalculator() {
-        operators.put('+', new AddOperator());
-        operators.put('-', new SubtractOperator());
-        operators.put('*', new MultiplyOperator());
-        operators.put('/', new DivideOperator());
-        operators.put('%', new ModOperator());
+        initOperators();
     }
 
-    public int arithmetic(Scanner sc) {
-        int midResult = 0;
+//    public ArithmeticCalculator() {
+//        operators.put(OperatorType.ADD.getSymbol(), new AddOperator());
+//        operators.put(OperatorType.SUBTRACT.getSymbol(), new SubtractOperator());
+//        operators.put(OperatorType.MULTIPLY.getSymbol(), new MultiplyOperator());
+//        operators.put(OperatorType.DIVIDE.getSymbol(), new DivideOperator());
+//        operators.put(OperatorType.MOD.getSymbol(), new ModOperator());
+//    }
+
+    public double arithmetic(Scanner sc) {
         while(true) {
-            if(operator == '/' && num2 == 0) {
-                while(num2 ==0){
+            if(operator == OperatorType.DIVIDE && num2 == 0.0) {
+                while(num2 == 0.0){
                     System.out.println("0을 제외한 다른 수를 입력해주세요");
                     String input = sc.nextLine();
                     if (input.equalsIgnoreCase("exit")) {
@@ -38,24 +50,24 @@ public class ArithmeticCalculator {
                         return 0;
                     }
                     try{
-                        num2 = Integer.parseInt(input);
+                        num2 = Double.parseDouble(input);
                     } catch(NumberFormatException e) {
-                        System.out.println("정수를 입력해주세요");
+                        System.out.println("숫자를 입력해주세요");
                     }
                 }
             }          //.get(operator) 여기서 operator은 사칙연산 클래스 중 하나이다. 입력한 연산 클래스의 객체가 op이다.
-            Operator op = operators.get(operator); //다형성(Operator인터페이스타입의 변수 op)을 통해
+            Operator<Double> op = operators.get(operator); //다형성(Operator인터페이스타입의 변수 op)을 통해
             if(op == null){                        //같은 메서드이름(operator())으로 다른 기능 구현
                 throw new IllegalArgumentException("지원하지 않는 연산자 입니다.");
             }
-            midResult = op.operate(num1, num2);
-            System.out.println("결과: " + midResult);
-            this.save(midResult);
-            return midResult;  // 연산결과 반환 후 while문 종료
+            double result = op.operate(num1, num2);
+            System.out.println("결과: " + result);
+            this.save(result);
+            return result;  // 연산결과 반환 후 while문 종료
         }
     }
 
-    public void save(int num){
+    public void save(double num){
         savedData.add(num);
         System.out.println("계산한 값이 저장되었습니다.");
     }
@@ -71,10 +83,10 @@ public class ArithmeticCalculator {
                 return null;
             }
             try {
-                num1 = Integer.parseInt(input);
+                num1 = Double.parseDouble(input);
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("잘못 입력하였습니다. 정수를 입력해주세요.");
+                System.out.println("잘못 입력하였습니다. 숫자를 입력해주세요.");
             }
         }
         // 사칙연산 입력
@@ -86,8 +98,9 @@ public class ArithmeticCalculator {
                 return null;
             }
             if (opInput.length() == 1) {
-                operator = opInput.charAt(0);
-                if (operator == '+' || operator == '-' || operator == '*' || operator == '/'|| operator == '%') {
+                Optional<OperatorType> op = OperatorType.fromChar(opInput.charAt(0));
+                if (op.isPresent()) {
+                    operator =op.get();
                     break;
                 } else {
                     System.out.println("잘못된 연산자 입니다. 다시 입력해주세요.");
@@ -106,7 +119,7 @@ public class ArithmeticCalculator {
                 return null;
             }
             try {
-                num2 = Integer.parseInt(input);
+                num2 = Double.parseDouble(input);
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("잘못 입력하였습니다. 정수를 입력해주세요.");
@@ -138,12 +151,12 @@ public class ArithmeticCalculator {
             } else if (answer.equalsIgnoreCase("inquiry")) {
                 System.out.print("현재 계산기에 저장된 값은 ");
                 if(!this.getData().isEmpty()) {
-                    for (int r : this.getData()) {
+                    for (double r : this.getData()) {
                         System.out.print(r + " ");
                     }
                     System.out.println();
                 } else {
-                    System.out.println("현재 저장되어 있는 값이 없습니다.");
+                    System.out.println("없습니다.");
                 }
 
             }else if (answer.equalsIgnoreCase("clear")) {
@@ -167,25 +180,25 @@ public class ArithmeticCalculator {
     }
 
     //getter
-    public int getNum1(){
+    public double getNum1(){
         return num1;
     }
 
-    public int getNum2(){
+    public double getNum2(){
         return num2;
     }
 
-    public char getOperator(){
+    public OperatorType getOperator(){
         return operator;
     }
 
-    public List<Integer> getData(){
+    public List<Double> getData(){
         return savedData;
     }
 
 
     //setter
-    public void setValues(int num1, int num2,  char operator) {
+    public void setValues(double num1, double num2,  OperatorType operator) {
         this.num1 = num1;
         this.num2 = num2;
         this.operator = operator;

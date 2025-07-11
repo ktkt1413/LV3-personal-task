@@ -1,8 +1,8 @@
 package calculator.operator;
 
-public class ModOperator implements Operator {
+public class ModOperator implements Operator<Double> {
     @Override
-    public int operate(int a, int b) {
+    public Double operate(Double a, Double b) {
         return a % b;
     }
 }

@@ -35,13 +35,13 @@ public class App {
                         return;
                     }else {
                         calc.setValues(values.num1, values.num2, values.operator);
-                        int resultNum = calc.arithmetic(sc);  // 반환값이 있어서 resultNum을 만들긴 했는데 쓸데가 없다..
+                        double resultNum = calc.arithmetic(sc);  // 반환값이 있어서 resultNum을 만들긴 했는데 쓸데가 없다..
                         calc.finishArithmetic(sc);
                     }
                 } else if (pressButton ==2){
                     CircleCalculator calc = new CircleCalculator();
 
-                    Integer value = calc.readyCircle(sc);
+                    Double value = calc.readyCircle(sc);
                     if(value == null){
                         sc.close();
                         return;

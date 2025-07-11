@@ -6,14 +6,14 @@ import java.util.Scanner;
 
 public class CircleCalculator {
     private final List<Double> savedData = new ArrayList<>();
-    private Integer radius;
+    private double radius;
     private double result;
     public static final double PIE = Math.PI;  // 상수임을 명시하기 위해 대문자로 명명
         // static:클래스 로딩 시 한 번만 메모리에 올라감. 객체 생성 없이도 클래스 이름으로 접근 가능 -> public으로 외부접근 허용
         // final: 한번 정의 된 후 변하지 않는 값(파이 값은 변하지 않으므로)
     public CircleCalculator(){};
 
-    public CircleCalculator(int radius) {
+    public CircleCalculator(double radius) {
         this.radius = radius;
     }
 
@@ -29,11 +29,11 @@ public class CircleCalculator {
         System.out.println("계산한 원 넓이가 저장되었습니다.");
     }
 
-    public Integer readyCircle(Scanner sc) {
+    public Double readyCircle(Scanner sc) {
         System.out.println("입력하신 반지름의 원 넓이를 구합니다.");
 
         while(true){
-            System.out.print("계산하고 싶은 원의 반지름을 입력해주세요.(소수 불가): ");
+            System.out.print("계산하고 싶은 원의 반지름을 입력해주세요.(소수 가능) : ");
             String input = sc.nextLine();
 
             if(input.equalsIgnoreCase("exit")){
@@ -45,7 +45,7 @@ public class CircleCalculator {
                 continue;
             }
             try{
-                radius = Integer.parseInt(input);
+                radius = Double.parseDouble(input);
                 break;
             } catch(NumberFormatException e){
                 System.out.println("잘못 입력하였습니다. 정수를 입력해주세요");
@@ -90,7 +90,7 @@ public class CircleCalculator {
                 System.out.println("작업이 종료됩니다.");
                 return;
             } else if (answer.isBlank()){
-                Integer input = this.readyCircle(sc);
+                Double input = this.readyCircle(sc);
                 if(input == null){  // <- exit 를 입력한 경우
                     System.out.println("작업이 종료됩니다. ");
                     return;
@@ -108,12 +108,12 @@ public class CircleCalculator {
         return savedData;
     }
 
-    public Integer getRadius(){
+    public Double getRadius(){
         return this.radius;
     }
 
     //setter 메서드
-    public void setValues(int radius) {
+    public void setValues(double radius) {
         this.radius = radius;
     }
 
