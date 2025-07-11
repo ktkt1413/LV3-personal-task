@@ -38,23 +38,44 @@ javac calculator/*.java calculator/operator/*.java
 ### 3. 실행
 java calculator.App
 
-
 # 🔗 파일 연결 구조 요약
-📦 calculator
-├── App.java                    ⬅️ 실행 시작 지점 (main)
-├── ArithmeticCalculator.java   ⬅️ 사칙연산 처리
-├── CircleCalculator.java       ⬅️ 원 넓이 계산 처리
-├── ArithmeticInput.java        ⬅️ 사칙연산 입력값 저장용 DTO
-└── operator
-    ├── Operator.java           ⬅️ 인터페이스
-    ├── AddOperator.java        ⬅️ 덧셈
-    ├── SubtractOperator.java   ⬅️ 뺄셈
-    ├── MultiplyOperator.java   ⬅️ 곱셈
-    ├── DivideOperator.java     ⬅️ 나눗셈
-    ├── ModOperator.java        ⬅️ 나머지
-    └── OperatorType.java       ⬅️ enum (연산자 기호 → 클래스 연결용)
+📦 calculator  
+├── App.java                    ⬅️ 실행 시작 지점 (main)  
+├── ArithmeticCalculator.java   ⬅️ 사칙연산 처리  
+├── CircleCalculator.java       ⬅️ 원 넓이 계산 처리  
+├── ArithmeticInput.java        ⬅️ 사칙연산 입력값 저장용 DTO  
+└── operator  
+&nbsp;&nbsp;&nbsp;&nbsp;├── Operator.java           ⬅️ 인터페이스  
+&nbsp;&nbsp;&nbsp;&nbsp;├── AddOperator.java        ⬅️ 덧셈  
+&nbsp;&nbsp;&nbsp;&nbsp;├── SubtractOperator.java   ⬅️ 뺄셈  
+&nbsp;&nbsp;&nbsp;&nbsp;├── MultiplyOperator.java   ⬅️ 곱셈  
+&nbsp;&nbsp;&nbsp;&nbsp;├── DivideOperator.java     ⬅️ 나눗셈  
+&nbsp;&nbsp;&nbsp;&nbsp;├── ModOperator.java        ⬅️ 나머지  
+&nbsp;&nbsp;&nbsp;&nbsp;└── OperatorType.java       ⬅️ enum (연산자 기호 → 클래스 연결용)
 
-#🧩 주요 클래스 설명
+
+---
+
+## 🧩 주요 클래스 설명
+
+| 클래스명                  | 역할 설명 |
+|---------------------------|------------|
+| `App.java`                | 메인 실행 클래스 (사용자 입력 처리 및 흐름 제어) |
+| `ArithmeticCalculator.java` | 사칙연산 계산, 결과 저장/조회/삭제 처리 |
+| `CircleCalculator.java`   | 원의 넓이 계산 (πr²), 결과 저장 및 관리 |
+| `ArithmeticInput.java`    | 사칙연산을 위한 두 숫자와 연산자를 담는 DTO |
+| `Operator.java`           | 사칙연산 클래스들의 공통 인터페이스 |
+| `AddOperator.java`        | 덧셈 연산 클래스 |
+| `SubtractOperator.java`   | 뺄셈 연산 클래스 |
+| `MultiplyOperator.java`   | 곱셈 연산 클래스 |
+| `DivideOperator.java`     | 나눗셈 연산 클래스 (0 나눗셈 예외 처리 포함) |
+| `ModOperator.java`        | 나머지 연산 클래스 |
+| `OperatorType.java`       | 연산자 기호를 enum으로 정의하고 해당 연산 클래스 매핑 |
+
+---
+
+필요하다면 이 구조를 이미지나 다이어그램으로도 시각화할 수 있어요. 추가 요청 주세요!
+
 ## 🔹 App.java
 
 - 메인 실행 클래스  
