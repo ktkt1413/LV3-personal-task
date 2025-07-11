@@ -93,18 +93,16 @@ public class CircleCalculator {
 
             if(answer.equalsIgnoreCase("remove")) {
                 if(!this.getData().isEmpty()){
-                    System.out.println("저장된 첫 번째 "+this.getData().get(0)+"이 삭제됩니다.");
-                    this.getData().remove(0);
-                    System.out.println("현재 저장된 값은 "+this.getData() + " 입니다.");
+                    String first = this.getData().remove(0);
+                    System.out.println("저장된 첫 번째 "+first+"이 삭제됩니다.");
+                    System.out.println("현재 저장된 값은 "+String.join(" ", this.getData())+" 입니다.");
                 } else {
                     System.out.println("삭제할 값이 없습니다.");
                 }
             } else if(answer.equalsIgnoreCase("inquiry")){
                 System.out.print("현재 계산기에 저장된 값은 ");
                 if(!this.getData().isEmpty()){
-                    for(String num : this.getData()){
-                        System.out.print(num + " ");
-                    }
+                    System.out.println(String.join(" ", this.getData()));
                     System.out.println();
                 }else {
                     System.out.println("없습니다.");

@@ -39,6 +39,7 @@ public class ArithmeticCalculator {
                 while(num2 == 0.0){
                     System.out.println("0을 제외한 다른 수를 입력해주세요");
                     String input = sc.nextLine().trim();
+
                     if (input.equalsIgnoreCase("exit")) {
                         System.out.println("계산을 종료하고 메인메뉴로 돌아갑니다.");
                         System.out.println();
@@ -50,11 +51,14 @@ public class ArithmeticCalculator {
                         System.out.println("숫자를 입력해주세요");
                     }
                 }
-            }          //.get(operator) 여기서 operator은 사칙연산 클래스 중 하나이다. 입력한 연산 클래스의 객체가 op이다.
-            Operator<Double> op = operators.get(operator); //다형성(Operator인터페이스타입의 변수 op)을 통해
-            if(op == null){                        //같은 메서드이름(operator())으로 다른 기능 구현
-                throw new IllegalArgumentException("지원하지 않는 연산자 입니다.");
             }
+            Operator<Double> op = Optional.ofNullable(operators.get(operator))
+                    .orElseThrow(() -> new IllegalArgumentException("지원하지 않는 연산자 입니다."));
+//                                        .get(operator) 여기서 operator은 사칙연산 클래스 중 하나이다. 입력한 연산 클래스의 객체가 op이다.
+//            Operator<Double> op = operators.get(operator); //다형성(Operator인터페이스타입의 변수 op)을 통해
+//            if(op == null){                        //같은 메서드이름(operator())으로 다른 기능 구현
+//                throw new IllegalArgumentException("지원하지 않는 연산자 입니다.");
+//            }
             double result = op.operate(num1, num2);
 
             DecimalFormat df = new DecimalFormat("#,###.####");
@@ -110,7 +114,8 @@ public class ArithmeticCalculator {
             }
         }
         // 사칙연산 입력
-        while (true) {
+        boolean[] done = new boolean[1];
+        while (!done[0]) {
             System.out.print("사칙연산 (+, -, *, /, %) 기호를 한개만 입력해주세요: ");
             String opInput = sc.nextLine().trim();
             if (opInput.equals("exit")) {
@@ -119,13 +124,21 @@ public class ArithmeticCalculator {
                 return null;
             }
             if (opInput.length() == 1) {
-                Optional<OperatorType> op = OperatorType.fromChar(opInput.charAt(0));
-                if (op.isPresent()) {
-                    operator =op.get();
-                    break;
-                } else {
-                    System.out.println("잘못된 연산자 입니다. 다시 입력해주세요.");
-                }
+                OperatorType.fromChar(opInput.charAt(0))
+                        .ifPresentOrElse(
+                                op ->{
+                                    operator =op;
+                                    done[0] = true;  //익명함수 내부에서 break 대체
+                                },
+                                () -> System.out.println("잘못된 연산자 입니다. 다시 입력해주세요")
+                        );
+//                Optional<OperatorType> op = OperatorType.fromChar(opInput.charAt(0));
+//                if (op.isPresent()) {
+//                    operator =op.get();
+//                    break;
+//                } else {
+//                    System.out.println("잘못된 연산자 입니다. 다시 입력해주세요.");
+//                }
             } else {
                 System.out.println("연산자는 1개만 입력해주세요");
             }
@@ -173,9 +186,7 @@ public class ArithmeticCalculator {
             } else if (answer.equalsIgnoreCase("inquiry")) {
                 System.out.print("현재 계산기에 저장된 값은 ");
                 if(!this.getData().isEmpty()) {
-                    for (String r : this.getData()) {
-                        System.out.print(r + " ");
-                    }
+                    System.out.println(String.join(" ", this.getData()));
                     System.out.println();
                 } else {
                     System.out.println("없습니다.");

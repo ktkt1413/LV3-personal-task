@@ -48,6 +48,9 @@ public class App {
                     } else {
                         calc.setValues(value);
                         double resultNum = calc.circleExtent(sc);  // 마찬가지 쓸데가 없다..그런데 삭제면 계산이 안되는듯
+                        if(resultNum == 0){
+                            continue;
+                        }
                         calc.finishCircle(sc);
                     }
                 }
